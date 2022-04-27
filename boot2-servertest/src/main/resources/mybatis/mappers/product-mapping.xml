@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="product.ProductDAO">
+  
+  
+  	<select id="productlist" resultType="productdto">
+  		select productcode, productname, price from product
+  		<!-- date_format적용한 컬럼은 이름이 따로 없기때문에 알리아스 지정함. (as) -->
+  	</select>
+  	
+  	
+  	
+  	<select id="product" resultType="productdto" parameterType="int">
+  		select productcode, productname, price, company, balance, 
+  		date_format(regdate, '%Y년도%m월%d일') as regdate from product
+  		where productcode=#{code}
+  	</select>
+  	
+  	
+  </mapper>

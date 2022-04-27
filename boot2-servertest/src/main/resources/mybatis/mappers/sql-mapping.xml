@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="spring.mybatis.MemberDAO">
+
+	<insert id="insertmember" parameterType="memberdto">
+		insert into member_table value(#{id}, #{password}, #{name}, #{phone}, #{email}, #{address})
+		<!-- #{} mybatis의 타입이라는 의미 / 타입은 memberdto로 한다고 이미 선언했기 때문에 id만 넣어주면 됨 -->
+	</insert>
+	
+	
+	<update id="updatemember" parameterType="memberdto">
+		update member_table set name=#{name}, address=#{address} where id=#{id} 
+	</update>
+	
+	
+	<delete id="deletemember" parameterType="String">
+		delete from member_table where id=#{id}
+	</delete>
+	
+	
+	<select id="memberlist" resultType="memberdto">
+		select * from member_table
+	</select>
+	
+
+	<!-- parameterType ="int[]" 생략가능 -->
+	<select id="paginglist" resultType="memberdto" parameterType="int[]">
+		select * from member_table limit
+		<foreach collection="array" item="num" separator=",">
+			#{num}
+		</foreach>
+	</select>	
+	
+	
+	<select id="addresssearch" resultType="String">
+		select id from member_table where address in 
+		<foreach collection="array" item="add" open="(" close=")" separator=",">
+			#{add}
+		</foreach>
+	</select>
+	
+	
+	<select id="member" resultType="memberdto" parameterType="String">
+		select * from member_table where id=#{id}
+		<!-- #{}안에 들어가는 것만 변수명, 나머지는 sql문 -->
+	</select>
+	
+
+</mapper>
